@@ -1,17 +1,16 @@
-nltk.download('stopwords')
 import streamlit as st
 import pickle
-import string
-from nltk.corpus import stopwords
-import nltk
-from nltk.stem.porter import PorterStemmer
-from sklearn.feature_extraction.text import TfidVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
+# Loading the saved vectorized and Naive Bayes model
 tfidf = pickle.load(open('vectorizer.pkl','rb'))
 model = pickle.load(open('model.pkl','rb'))
 
-
-
+# transform_text fusntion for text preprocessing
+import nltk
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+import string
 
 ps = PorterStemmer()
 
@@ -27,10 +26,11 @@ def transform_text(text):
     text = [word for word in text if word not in stopwords.words('english') and word not in string.punctuation]
 
     # Applying Stemming
-    text = [ps.stem(words) for word in text]
+    text = [ps.stem(word) for word in text]
 
     return " ".join(text)
 
+#Streamlit code
 st.title("SMS Spam Classifier")
 input_sms = st.text_area("Enter the message")
 
