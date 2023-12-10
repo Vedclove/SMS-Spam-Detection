@@ -3,14 +3,8 @@ import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
 import nltk
 from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
+from nltk.stem.porter import PorterStemmer
 import string
-
-nltk.download('stopwords')
-
-# Loading the saved vectorized and Naive Bayes model
-tfidf = pickle.load(open('vectorizer.pkl','rb'))
-model = pickle.load(open('model.pkl','rb'))
 
 ps = PorterStemmer()
 
@@ -29,6 +23,10 @@ def transform_text(text):
     text = [ps.stem(word) for word in text]
 
     return " ".join(text)
+
+# Loading the saved vectorized and Naive Bayes model
+tfidf = pickle.load(open('vectorizer.pkl','rb'))
+model = pickle.load(open('model.pkl','rb'))
 
 #Streamlit code
 st.title("SMS Spam Classifier")
